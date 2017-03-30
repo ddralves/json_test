@@ -25,65 +25,59 @@ class ViewController: UIViewController {
     // IBAction for button used to force a fetch of user list
     @IBAction func fetchUsers(_ sender: UIButton) {
         fetchData(completionHandler: nil) // Invoke fetching of data
+        
+        let alert = UIAlertController(title: "Fetched Users", message: "Users that have been fetched", preferredStyle: UIAlertControllerStyle.alert)
+        self.present(alert, animated: true, completion: nil)
     }
 
     // IBAction for display specific user "Samantha"
     @IBAction func fetchSamantha(_ sender: UIButton) {
         
-        // State the username to search for
-        let userNameToFind = "Samantha"
-        
-        // Closure that runs the search
-        let findUser: ([User],String) -> User = { (userList,userNameToFind) in
-            
-            // Find first occurance of the username
-            guard let user = userList.first(where: {
-                $0.username == userNameToFind
-            }) else {
-                print("Username not found!")
-                return User() // Return empty user
-            }
-            
-            print("User -> \(user.name) matches username -> \(user.username)")
-            
-            return user
-        }
-        
-        
+        // Check if user list is empty. If so, then fetch data first and use completion handler to call the findUser method
         if userList.isEmpty {
-            fetchData(completionHandler: findUser(userList, userNameToFind))
+            fetchData(completionHandler: {
+                let user = self.findUser(withUserName: "Samantha")
+                
+                print("User found!")
+                print("username -> \(user.username)")
+                print("name -> \(user.name)")
+            })
         }
         else {
-            let user = findUser(userList, userNameToFind)
+            // List already exists. Call findUser immediately
+            let user = findUser(withUserName: "Samantha")
+            
+            print("User found!")
+            print("username -> \(user.username)")
+            print("name -> \(user.name)")
         }
     }
     
-//    func findUser(withUserName: String) -> User {
-//        
-//        // Find first occurance of the username
-//        guard let user = userList.first(where: {
-//            $0.username == withUserName
-//        }) else {
-//            print("Username not found!")
-//            return User() // Return empty user
-//        }
-//        
-//        print("User -> \(user.name) matches username -> \(user.username)")
-//        
-//        return user
-//    }
+    func findUser(withUserName: String) -> User {
+        
+        // Find first occurance of the username
+        guard let user = userList.first(where: {
+            $0.username == withUserName
+        }) else {
+            print("Username not found!")
+            return User() // Return empty user
+        }
+        
+        print("User -> \(user.name) matches username -> \(user.username)")
+        
+        return user
+    }
     
     // This method sets up and handles the URL request for the json data
-    func fetchData(completionHandler: @escaping ([User], String) -> User) {
+    func fetchData(completionHandler: ((Void) -> Void)?) {
         
         // Give user feedback by means of a loading indicator that will stop animating once data has been obtained and parsed
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 50, y: 10, width: 37, height: 37))
-        loadingIndicator.center = self.view.center
+        loadingIndicator.center = self.view.center // Align position
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
         loadingIndicator.startAnimating()
-
-        self.view.addSubview(loadingIndicator)
+        self.view.addSubview(loadingIndicator) // Add to main view
         
         // Create URL from constant string
         guard let url = URL(string: USERS_URL_STRING) else {
@@ -107,10 +101,14 @@ class ViewController: UIViewController {
             // Since there is no error, we can assume data was retrieved
             self.handleRequest(data: data!)
             
-            // TODO: Reload data on the list view here
+            // Only stop loading indicator and run completion handler after data has been fetched
             DispatchQueue.main.async {
                 loadingIndicator.stopAnimating()
-                completionHandler()
+                
+                // Run the completion handler only if it is not nil
+                if completionHandler != nil {
+                    completionHandler!()
+                }
             }
             
         }
