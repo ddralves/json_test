@@ -26,6 +26,8 @@ class Geo {
      
      - parameter lat: Latitude co-ordinate. If none supplied, then default is used.
      - parameter lng: Longitude co-ordinate. If none supplied, then default is used.
+     
+     TODO: Might not need this init
      */
     init (lat: String, lng: String) {
         self.lat = lat;

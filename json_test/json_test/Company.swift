@@ -29,6 +29,8 @@ class Company {
         - name: Name of company
         - catchPhrase: Catchphrase of company
         - bs: Business slogan of company
+     
+     TODO: Might not need this init
      */
     init(name: String, catchPhrase: String, bs: String) {
         self.name = name

@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private var userList = [User()]
+    private var userList = [User]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,15 +24,66 @@ class ViewController: UIViewController {
 
     // IBAction for button used to force a fetch of user list
     @IBAction func fetchUsers(_ sender: UIButton) {
-        fetchData() // Invoke fetching of data
+        fetchData(completionHandler: nil) // Invoke fetching of data
     }
 
     // IBAction for display specific user "Samantha"
     @IBAction func fetchSamantha(_ sender: UIButton) {
+        
+        // State the username to search for
+        let userNameToFind = "Samantha"
+        
+        // Closure that runs the search
+        let findUser: ([User],String) -> User = { (userList,userNameToFind) in
+            
+            // Find first occurance of the username
+            guard let user = userList.first(where: {
+                $0.username == userNameToFind
+            }) else {
+                print("Username not found!")
+                return User() // Return empty user
+            }
+            
+            print("User -> \(user.name) matches username -> \(user.username)")
+            
+            return user
+        }
+        
+        
+        if userList.isEmpty {
+            fetchData(completionHandler: findUser(userList, userNameToFind))
+        }
+        else {
+            let user = findUser(userList, userNameToFind)
+        }
     }
     
+//    func findUser(withUserName: String) -> User {
+//        
+//        // Find first occurance of the username
+//        guard let user = userList.first(where: {
+//            $0.username == withUserName
+//        }) else {
+//            print("Username not found!")
+//            return User() // Return empty user
+//        }
+//        
+//        print("User -> \(user.name) matches username -> \(user.username)")
+//        
+//        return user
+//    }
+    
     // This method sets up and handles the URL request for the json data
-    func fetchData() {
+    func fetchData(completionHandler: @escaping ([User], String) -> User) {
+        
+        // Give user feedback by means of a loading indicator that will stop animating once data has been obtained and parsed
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 50, y: 10, width: 37, height: 37))
+        loadingIndicator.center = self.view.center
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        loadingIndicator.startAnimating()
+
+        self.view.addSubview(loadingIndicator)
         
         // Create URL from constant string
         guard let url = URL(string: USERS_URL_STRING) else {
@@ -57,6 +108,10 @@ class ViewController: UIViewController {
             self.handleRequest(data: data!)
             
             // TODO: Reload data on the list view here
+            DispatchQueue.main.async {
+                loadingIndicator.stopAnimating()
+                completionHandler()
+            }
             
         }
         

@@ -33,6 +33,8 @@ class Address {
         - city: City name
         - zipcode: Zipcode number
         - geo: Geo-location co-ordinates supplied as a Geo object with latitude and longitude
+     
+     TODO: Might not need this init
      */
     init(street: String, suite: String, city: String, zipcode: String, geo: Geo) {
         self.street = street
