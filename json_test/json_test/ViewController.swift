@@ -10,11 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    private var userList = [User]()
+    var userList = [User]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        // Do any additional setup after loading the view, typically from a nib
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,6 +27,9 @@ class ViewController: UIViewController {
         fetchData(completionHandler: nil) // Invoke fetching of data
         
         let alert = UIAlertController(title: "Fetched Users", message: "Users that have been fetched", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in
+            // Do nothing
+        }))
         self.present(alert, animated: true, completion: nil)
     }
 
@@ -36,36 +39,32 @@ class ViewController: UIViewController {
         // Check if user list is empty. If so, then fetch data first and use completion handler to call the findUser method
         if userList.isEmpty {
             fetchData(completionHandler: {
-                let user = self.findUser(withUserName: "Samantha")
-                
-                print("User found!")
-                print("username -> \(user.username)")
-                print("name -> \(user.name)")
+                self.findUserEmail(withUserName: "Samantha")
             })
         }
         else {
             // List already exists. Call findUser immediately
-            let user = findUser(withUserName: "Samantha")
-            
-            print("User found!")
-            print("username -> \(user.username)")
-            print("name -> \(user.name)")
+            findUserEmail(withUserName: "Samantha")
         }
+        
     }
     
-    func findUser(withUserName: String) -> User {
+    func findUserEmail(withUserName: String) {
         
         // Find first occurance of the username
         guard let user = userList.first(where: {
             $0.username == withUserName
         }) else {
             print("Username not found!")
-            return User() // Return empty user
+            return
         }
         
-        print("User -> \(user.name) matches username -> \(user.username)")
+        let alert = UIAlertController(title: "E-mail for \(user.username) found!", message: user.email, preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (alertAction: UIAlertAction!) in
+            // Do nothing
+        }))
         
-        return user
+        self.present(alert, animated: true, completion: nil)
     }
     
     // This method sets up and handles the URL request for the json data
@@ -104,7 +103,6 @@ class ViewController: UIViewController {
             // Only stop loading indicator and run completion handler after data has been fetched
             DispatchQueue.main.async {
                 loadingIndicator.stopAnimating()
-                
                 // Run the completion handler only if it is not nil
                 if completionHandler != nil {
                     completionHandler!()
