@@ -13,17 +13,26 @@ import UIKit
  */
 class ViewController: UIViewController {
     
+    @IBOutlet weak var usernameTextField: UITextField! // E-mail search text field
+    
     var userList = [User]() // Create empty array of User objects
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Allow user to tap anywhere in the screen to hide keyboard
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ViewController.dissmissKeyboard))
+        self.view.addGestureRecognizer(tap)
+        
+        // Assign text field delegate to handle keyboard enter
+        usernameTextField.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
 
-    // IBAction for button used to force a fetch of user list
+    // IBAction for button used to force a fetch and display of user list
     @IBAction func fetchUsers(_ sender: UIButton) {
         
         if userList.isEmpty {
@@ -38,7 +47,7 @@ class ViewController: UIViewController {
         
     }
 
-    // IBAction for display specific user "Samantha"
+    // IBAction for fetching and displaying specific username "Samantha" email address
     @IBAction func fetchSamantha(_ sender: UIButton) {
         
         // Check if user list is empty. If so, then fetch data first and use completion handler to call the findUser method
@@ -53,6 +62,12 @@ class ViewController: UIViewController {
         }
         
     }
+    
+    // IBAction used to search user list for email by means of a supplied username
+    @IBAction func searchButtonPressed(_ sender: UIButton) {
+        searchForEmail()
+    }
+    
     
     /** 
      This function sets up and handles the URL request for the json data. It will then run an optional completion handler if necessary.
@@ -172,7 +187,16 @@ class ViewController: UIViewController {
         guard let user = userList.first(where: {
             $0.username == withUserName
         }) else {
-            print("Username not found!")
+            
+            // Init the alert controller
+            let alert = UIAlertController(title: "Something is wrong!", message: "E-mail for \(withUserName) not found!", preferredStyle: UIAlertControllerStyle.alert)
+            
+            // Assign an action button to this alert
+            alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertActionStyle.default, handler: { (alertAction: UIAlertAction!) in
+                // Do nothing
+            }))
+            self.present(alert, animated: true, completion: nil)
+            
             return
         }
         
@@ -211,5 +235,49 @@ class ViewController: UIViewController {
         
         // Show the alert
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    // This function handles the search of emails using the user's username
+    func searchForEmail() {
+        
+        // Hide keyboard
+        dissmissKeyboard()
+        
+        guard let username = usernameTextField.text else {
+            let alert = UIAlertController(title: "Something is wrong", message: "No username supplied!", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Try Again!", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in
+                // Do nothing
+            }))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        if userList.isEmpty {
+            fetchData(completionHandler: {
+                self.findUserEmail(withUserName: username)
+            })
+        }
+        else {
+            // List already exists. Call findUser immediately
+            findUserEmail(withUserName: username)
+        }
+        
+    }
+    
+    // This function hides the keyboard of the usernameTextField
+    func dissmissKeyboard() {
+        usernameTextField.endEditing(true)
+    }
+}
+
+/**
+ Extension of ViewController to handle the behaviour of the "return" button on the keyboard for the text field.
+ */
+extension ViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchForEmail()
+        dissmissKeyboard()
+        return true
     }
 }
