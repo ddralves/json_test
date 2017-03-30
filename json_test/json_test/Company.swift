@@ -13,7 +13,7 @@ import Foundation
 class Company {
     var name: String = "No company name supplied!"
     var catchPhrase: String = "No catch phrase supplied!"
-    var bs: String = "No bs supplied!"
+    var bs: String = "No business slogan supplied!"
     
     /**
      Default init
@@ -28,7 +28,9 @@ class Company {
      - parameters:
         - name: Name of company
         - catchPhrase: Catchphrase of company
-        - bs: Bs of company
+        - bs: Business slogan of company
+     
+     TODO: Might not need this init
      */
     init(name: String, catchPhrase: String, bs: String) {
         self.name = name
