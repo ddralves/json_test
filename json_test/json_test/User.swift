@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Model used to represent each user
 class User {
     
     var id: Int? // Unique ID representing the user. Optional as this cannot not be defaulted
@@ -27,7 +28,17 @@ class User {
     }
     
     /**
-     Init
+     Inits
+     
+     - paramters:
+        - id: Unique user ID
+        - name: User's name
+        - username: Username of the user
+        - email: E-mail address of user
+        - address: User's physical address
+        - phone: User's phone number
+        - website: User's website link
+        - company: User's associated company
      */
     init(id: Int, name: String, username: String, email: String, address: Address,
          phone: String, website: String, company: Company) {

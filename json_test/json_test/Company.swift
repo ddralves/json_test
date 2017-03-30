@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Model used to represent the company that is associated with each user
 // TODO: Look at making the Company a struct so that it is passed by value and not refernce as this could breakt he functionality
 class Company {
     var name: String = "No company name supplied!"

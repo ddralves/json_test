@@ -64,9 +64,9 @@
 		2CFE47571E8CFB98001FFC01 /* json_test */ = {
 			isa = PBXGroup;
 			children = (
+				2CFE47751E8D21AF001FFC01 /* Controllers */,
 				2CFE476A1E8CFCDF001FFC01 /* Models */,
 				2CFE47581E8CFB98001FFC01 /* AppDelegate.swift */,
-				2CFE475A1E8CFB98001FFC01 /* ViewController.swift */,
 				2CFE475C1E8CFB98001FFC01 /* Main.storyboard */,
 				2CFE475F1E8CFB98001FFC01 /* Assets.xcassets */,
 				2CFE47611E8CFB98001FFC01 /* LaunchScreen.storyboard */,
@@ -85,6 +85,14 @@
 				2CFE47731E8CFE15001FFC01 /* Constants.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		2CFE47751E8D21AF001FFC01 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2CFE475A1E8CFB98001FFC01 /* ViewController.swift */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

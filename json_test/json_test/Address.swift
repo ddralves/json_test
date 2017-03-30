@@ -8,8 +8,8 @@
 
 import Foundation
 
+// Model used to represent the physical address of the user
 // TODO: Look at making the Address a struct so that it is passed by value and not refernce as this could breakt he functionality
-
 class Address {
     var street: String = "No street name supplied!" // Street address
     var suite: String = "No suite name supplied!" // Suite name
