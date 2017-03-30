@@ -7,3 +7,37 @@
 //
 
 import Foundation
+
+class User {
+    
+    var id: Int? // Unique ID representing the user. Optional as this cannot not be defaulted
+    var name: String = "User's name not supplied!" // Name of the user
+    var username: String = "Username not supplied!" // Username of the user
+    var email: String = "No e-mail supplied!" // E-mail address of user
+    var address: Address = Address() // User's physical address
+    var phone: String = "No phone number supplied!" // User's phone number
+    var website: String = "Website link not supplied!" // User's website link
+    var company: Company = Company() // User's associated company
+    
+    /**
+     Default init
+     */
+    init() {
+        // Do nothing
+    }
+    
+    /**
+     Init
+     */
+    init(id: Int, name: String, username: String, email: String, address: Address,
+         phone: String, website: String, company: Company) {
+        self.id = id
+        self.name = name
+        self.username = username
+        self.email = email
+        self.address = address
+        self.phone = phone
+        self.website = website
+        self.company = company
+    }
+}
