@@ -8,29 +8,34 @@
 
 import UIKit
 
+/**
+ Main view controller for this project
+ */
 class ViewController: UIViewController {
     
-    var userList = [User]()
+    var userList = [User]() // Create empty array of User objects
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // IBAction for button used to force a fetch of user list
     @IBAction func fetchUsers(_ sender: UIButton) {
-        fetchData(completionHandler: nil) // Invoke fetching of data
         
-        let alert = UIAlertController(title: "Fetched Users", message: "Users that have been fetched", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in
-            // Do nothing
-        }))
-        self.present(alert, animated: true, completion: nil)
+        if userList.isEmpty {
+            // Invoke fetching of data first and then display the alert
+            fetchData(completionHandler: {
+                self.displayNameListAlert()
+            })
+        } else {
+            // User list already exists so display alert immediately
+            displayNameListAlert()
+        }
+        
     }
 
     // IBAction for display specific user "Samantha"
@@ -49,25 +54,11 @@ class ViewController: UIViewController {
         
     }
     
-    func findUserEmail(withUserName: String) {
-        
-        // Find first occurance of the username
-        guard let user = userList.first(where: {
-            $0.username == withUserName
-        }) else {
-            print("Username not found!")
-            return
-        }
-        
-        let alert = UIAlertController(title: "E-mail for \(user.username) found!", message: user.email, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (alertAction: UIAlertAction!) in
-            // Do nothing
-        }))
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    // This method sets up and handles the URL request for the json data
+    /** 
+     This function sets up and handles the URL request for the json data. It will then run an optional completion handler if necessary.
+     
+     - parameter completionHandler: Any closure that needs to run after the data has been fetched successfully
+     */
     func fetchData(completionHandler: ((Void) -> Void)?) {
         
         // Give user feedback by means of a loading indicator that will stop animating once data has been obtained and parsed
@@ -136,16 +127,16 @@ class ViewController: UIViewController {
                 let company = Company()
                 
                 // Retrieve address dictionary and populate variables
-                if let addressDictionary = dictionary["address"] as? [String: AnyObject] {
-                    address.street = addressDictionary["street"] as! String
-                    address.suite = addressDictionary["suite"] as! String
-                    address.city = addressDictionary["city"] as! String
-                    address.zipcode = addressDictionary["zipcode"] as! String
+                if let addressDictionary = dictionary[USER_ADDRESS_KEY] as? [String: AnyObject] {
+                    address.street = addressDictionary[ADDRESS_STREET_KEY] as! String
+                    address.suite = addressDictionary[ADDRESS_SUITE_KEY] as! String
+                    address.city = addressDictionary[ADDRESS_CITY_KEY] as! String
+                    address.zipcode = addressDictionary[ADDRESS_ZIPCODE_KEY] as! String
                     
                     // Retreive geo dictionary and populate variables
-                    if let geoDictionary = addressDictionary["geo"] as? [String: AnyObject] {
-                        geo.lat = geoDictionary["lat"] as! String
-                        geo.lng = geoDictionary["lng"] as! String
+                    if let geoDictionary = addressDictionary[ADDRESS_GEO_KEY] as? [String: AnyObject] {
+                        geo.lat = geoDictionary[GEO_LAT_KEY] as! String
+                        geo.lng = geoDictionary[GEO_LNG_KEY] as! String
                     }
                     
                     address.geo = geo
@@ -153,28 +144,72 @@ class ViewController: UIViewController {
                 }
                 
                 // Retrieve company dictionary and populate variables
-                if let companyDictionary = dictionary["company"] as? [String: AnyObject] {
-                    company.name = companyDictionary["name"] as! String
-                    company.catchPhrase = companyDictionary["catchPhrase"] as! String
-                    company.bs = companyDictionary["bs"] as! String
+                if let companyDictionary = dictionary[USER_COMPANY_KEY] as? [String: AnyObject] {
+                    company.name = companyDictionary[COMPANY_NAME_KEY] as! String
+                    company.catchPhrase = companyDictionary[COMPANY_CATCHPHRASE_KEY] as! String
+                    company.bs = companyDictionary[COMPANY_BS_KEY] as! String
                 }
                 
                 // Now create the user model and load all variables and objects into it
-                let user = User(id: dictionary["id"] as! Int, name: dictionary["name"] as! String, username: dictionary["username"] as! String, email: dictionary["email"] as! String, address: address, phone: dictionary["phone"] as! String, website: dictionary["website"] as! String, company: company)
+                let user = User(id: dictionary[USER_ID_KEY] as! Int, name: dictionary[USER_NAME_KEY] as! String, username: dictionary[USER_USERNAME_KEY] as! String, email: dictionary[USER_EMAIL_KEY] as! String, address: address, phone: dictionary[USER_PHONE_KEY] as! String, website: dictionary[USER_WEBSITE_KEY] as! String, company: company)
                 
+                // Finally add user to the list
                 userList.append(user)
-                
-                print("user name -> \(user.name)")
-                print("street -> \(user.address.street)")
-                print("latitude -> \(user.address.geo.lat)")
-                print("company name -> \(user.company.name)")
             }
-            
-            
-            
         } catch let error as NSError {
             print("Handle Request failed with error: \(error.debugDescription)")
         }
     }
+    
+    /**
+     This function runs through the list of users and finds the e-mail address of the supplied username. It then displays the e-mail via an alert
+     
+     - parameter withUserName: username to search the list for
+     */
+    func findUserEmail(withUserName: String) {
+        
+        // Find first occurance of the username
+        guard let user = userList.first(where: {
+            $0.username == withUserName
+        }) else {
+            print("Username not found!")
+            return
+        }
+        
+        // Init the alert controller
+        let alert = UIAlertController(title: "E-mail for \(user.username) found!", message: user.email, preferredStyle: UIAlertControllerStyle.alert)
+        
+        // Assign an action button to this alert
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (alertAction: UIAlertAction!) in
+            // Do nothing
+        }))
+        
+        // Show the alert
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    /**
+     This function will prepare and present a alert with the list of names of all the users in the list
+     */
+    func displayNameListAlert() {
+        
+        // Create an empty string to be showed as a message in the alert later
+        var message = ""
+        
+        // Populate the string with user's names and carraige return
+        for user in self.userList {
+            message += user.name + "\n"
+        }
+        
+        // Init the alert
+        let alert = UIAlertController(title: "Fetched Users", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        // Assign an action button for this alert
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (alert: UIAlertAction!) in
+            // Do nothing
+        }))
+        
+        // Show the alert
+        self.present(alert, animated: true, completion: nil)
+    }
 }
-

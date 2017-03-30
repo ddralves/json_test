@@ -22,20 +22,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gXT-Q3-Swr">
-                                <rect key="frame" x="77" y="318" width="260" height="100"/>
+                                <rect key="frame" x="72.666666666666686" y="325.66666666666669" width="269" height="85"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UdD-3h-BCZ">
-                                        <rect key="frame" x="43.666666666666686" y="0.0" width="173" height="50"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="32"/>
-                                        <state key="normal" title="Fetch Users"/>
+                                        <rect key="frame" x="11" y="0.0" width="247" height="42"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
+                                        <state key="normal" title="Display User's Names"/>
                                         <connections>
                                             <action selector="fetchUsers:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eye-kp-I4G"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O7W-vP-ze1">
-                                        <rect key="frame" x="0.0" y="50" width="260" height="50"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="32"/>
-                                        <state key="normal" title="Display Samantha"/>
+                                        <rect key="frame" x="0.0" y="42" width="269" height="43"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="26"/>
+                                        <state key="normal" title="Get Samantha's E-mail"/>
                                         <connections>
                                             <action selector="fetchSamantha:" destination="BYZ-38-t0r" eventType="touchUpInside" id="h3K-yv-Txz"/>
                                         </connections>
