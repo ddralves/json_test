@@ -15,10 +15,10 @@ class User {
     var name: String = "User's name not supplied!" // Name of the user
     var username: String = "Username not supplied!" // Username of the user
     var email: String = "No e-mail supplied!" // E-mail address of user
-    var address: Address = Address() // User's physical address
+    var address = Address() // User's physical address
     var phone: String = "No phone number supplied!" // User's phone number
     var website: String = "Website link not supplied!" // User's website link
-    var company: Company = Company() // User's associated company
+    var company = Company() // User's associated company
     
     /**
      Default init

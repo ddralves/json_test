@@ -15,7 +15,7 @@ class Address {
     var suite: String = "No suite name supplied!" // Suite name
     var city: String = "No city name supplied!" // Name of city
     var zipcode: String = "No zipcode supplied!" // Zipcode
-    var geo: Geo = Geo() // Geo location of address. Set to default
+    var geo = Geo() // Geo location of address. Set to default
     
     /**
      Default init
