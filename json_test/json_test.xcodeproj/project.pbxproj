@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C1D17F91F3129DB000C3C52 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C1D17F71F3129DB000C3C52 /* Fabric.framework */; };
+		2C1D17FA1F3129DB000C3C52 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C1D17F81F3129DB000C3C52 /* Crashlytics.framework */; };
 		2C569B4D1F141C7A0062564A /* json_testUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C569B4C1F141C7A0062564A /* json_testUITests.swift */; };
 		2C569B571F141CAE0062564A /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C569B551F141CAE0062564A /* SnapshotHelper.swift */; };
 		2CFE47591E8CFB98001FFC01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFE47581E8CFB98001FFC01 /* AppDelegate.swift */; };
@@ -32,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C1D17F71F3129DB000C3C52 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		2C1D17F81F3129DB000C3C52 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		2C569B4A1F141C7A0062564A /* json_testUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = json_testUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C569B4C1F141C7A0062564A /* json_testUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = json_testUITests.swift; sourceTree = "<group>"; };
 		2C569B4E1F141C7A0062564A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,6 +67,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C1D17FA1F3129DB000C3C52 /* Crashlytics.framework in Frameworks */,
+				2C1D17F91F3129DB000C3C52 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +89,8 @@
 		2CFE474C1E8CFB98001FFC01 = {
 			isa = PBXGroup;
 			children = (
+				2C1D17F71F3129DB000C3C52 /* Fabric.framework */,
+				2C1D17F81F3129DB000C3C52 /* Crashlytics.framework */,
 				2CFE47571E8CFB98001FFC01 /* json_test */,
 				2C569B4B1F141C7A0062564A /* json_testUITests */,
 				2CFE47561E8CFB98001FFC01 /* Products */,
@@ -160,6 +168,7 @@
 				2CFE47511E8CFB98001FFC01 /* Sources */,
 				2CFE47521E8CFB98001FFC01 /* Frameworks */,
 				2CFE47531E8CFB98001FFC01 /* Resources */,
+				2C1D17F61F3129BF000C3C52 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -182,7 +191,6 @@
 				TargetAttributes = {
 					2C569B491F141C7A0062564A = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 4ZS6PA29UR;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2CFE47541E8CFB98001FFC01;
 					};
@@ -231,6 +239,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2C1D17F61F3129BF000C3C52 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 6d66ce6aab9bddee2549ad128402784bbd5049ac 8b75e7a26077a4b970dc45d1592ee20ef1dccf752572a2d7047f8dc466898d57";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2C569B461F141C7A0062564A /* Sources */ = {
@@ -289,11 +313,13 @@
 		2C569B511F141C7A0062564A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 4ZS6PA29UR;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = json_testUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dinoalves.json-testUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = json_test;
 			};
@@ -302,11 +328,13 @@
 		2C569B521F141C7A0062564A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 4ZS6PA29UR;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = json_testUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dinoalves.json-testUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = json_test;
 			};
@@ -409,7 +437,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 4ZS6PA29UR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = json_test/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dinoalves.json-test";
@@ -423,6 +456,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4ZS6PA29UR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = json_test/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dinoalves.json-test";
@@ -441,6 +478,7 @@
 				2C569B521F141C7A0062564A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2CFE47501E8CFB98001FFC01 /* Build configuration list for PBXProject "json_test" */ = {
 			isa = XCConfigurationList;

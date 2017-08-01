@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Crashlytics
 
 /**
  Main view controller for this project
@@ -65,7 +66,11 @@ class ViewController: UIViewController {
     
     // IBAction used to search user list for email by means of a supplied username
     @IBAction func searchButtonPressed(_ sender: UIButton) {
-        searchForEmail()
+        //searchForEmail()
+        Crashlytics.sharedInstance().setUserName("Dino")
+        Crashlytics.sharedInstance().setUserIdentifier("12345")
+        Crashlytics.sharedInstance().setUserEmail("ddralves@gmail.com")
+        Crashlytics.sharedInstance().crash()
     }
     
     

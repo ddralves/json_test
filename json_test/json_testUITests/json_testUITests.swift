@@ -17,6 +17,11 @@ class json_testUITests: XCTestCase {
         
         setupSnapshot(app)
         
+        let index = app.launchArguments.index(of: "-hello")!
+        let hello = app.launchArguments[index + 1]
+        
+        print("Argument value is -> \(hello)")
+        
         app.launch()
     }
     
